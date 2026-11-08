@@ -1,5 +1,4 @@
-/* Подключаем новые шрифты */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
   --navy: #05054f;
@@ -48,7 +47,7 @@ body {
 .logo:hover .logo-plane { transform: translate(5px, -5px) rotate(-10deg); }
 
 .logo-text {
-  font-family: 'Playfair Display', serif; /* Люксовый шрифт */
+  font-family: 'Playfair Display',  serif; /* Люксовый шрифт */
   font-size: 32px;
   font-weight: 800;
   color: var(--vanilla);
@@ -63,55 +62,82 @@ body {
 /* --- ГЛАВНАЯ (HERO) --- */
 .hero-section {
   position: relative;
-  height: 100vh; /* Занимает весь экран */
+  min-height: 100vh; /* Занимает минимум весь экран */
   background: linear-gradient(rgba(0, 0, 51, 0.5), rgba(5, 5, 79, 0.9)), 
-              url('./my-plane.webp') center/cover; 
+              url('./my-plane.webp') center/cover;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 20px;
+  /* Выравниваем элементы по центру по вертикали, но оставляем место для формы */
+  justify-content: space-between; 
+  padding-top: 140px; /* Отодвигаем текст от парящей шапки */
+  padding-bottom: 60px; /* Отступ формы от низа экрана */
 }
 
 .hero-content { 
   position: relative; 
   z-index: 2; 
-  margin-top: -10vh; /* Чуть поднимаем текст, чтобы освободить место для формы */
+  text-align: center;
+  padding: 0 20px;
+  /* Если текст кажется слишком высоко, увеличь padding-top ниже */
 }
 
 .hero-content h1 { 
-  font-family: 'Playfair Display', serif; /* Люксовый шрифт */
+  font-family: 'Playfair Display',  serif;
   font-size: 56px; 
   margin-bottom: 15px; 
   text-shadow: 2px 2px 8px rgba(0,0,0,0.8); 
   letter-spacing: 1px;
 }
-.hero-content p { font-size: 20px; font-weight: 300; margin-bottom: 40px; color: #e0e0e0; }
 
-/* --- ПОЛУПРОЗРАЧНАЯ ФОРМА ПОИСКА ВНИЗУ --- */
+.hero-content p { 
+  font-size: 20px; 
+  font-weight: 300; 
+  color: #e0e0e0; 
+}
+
+/* --- ПОЛУПРОЗРАЧНЫЙ ПРЯМОУГОЛЬНИК ПОИСКА --- */
 .search-form {
-  position: absolute;
-  bottom: 50px; /* Прижимаем к низу блока */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  background: rgba(253, 245, 230, 0.15); /* Полупрозрачный ванильный фон */
-  backdrop-filter: blur(15px); /* Стеклянный эффект */
+  position: relative;
+  z-index: 2;
+  background: rgba(253, 245, 230, 0.15); /* Возвращаем полупрозрачный ванильный фон */
+  backdrop-filter: blur(15px); /* Эффект стекла */
   -webkit-backdrop-filter: blur(15px);
   padding: 25px 30px;
-  border-radius: 20px; /* Скругленные углы */
+  border-radius: 20px; 
   gap: 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  
+  /* Делаем его не на весь экран, а по центру */
   width: 90%;
-  max-width: 1000px;
-  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto; 
+  
+  /* Выстраиваем элементы в ряд */
+  display: flex;
+  align-items: flex-end; 
 }
 
-.input-group { display: flex; flex-direction: column; text-align: left; flex: 1; }
-.input-group label { color: var(--vanilla); font-size: 13px; font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-.input-group input { 
+/* Стили для инпутов и селекта (чтобы селект выглядел как инпут) */
+.input-group { 
+  display: flex; 
+  flex-direction: column; 
+  text-align: left; 
+  flex: 1; 
+  min-width: 130px;
+}
+
+.input-group label { 
+  color: var(--vanilla); 
+  font-size: 13px; 
+  font-weight: 500; 
+  margin-bottom: 8px; 
+  text-transform: uppercase; 
+  letter-spacing: 1px;
+}
+
+.input-group input, 
+.input-group select { 
   padding: 15px; 
   border: 1px solid rgba(255,255,255,0.2); 
   background: rgba(0,0,0,0.2);
@@ -122,7 +148,15 @@ body {
   font-family: 'Roboto', sans-serif;
   transition: 0.3s; 
 }
-.input-group input:focus { 
+
+/* Стили для выпадающего списка */
+.input-group select option {
+  background: var(--navy); /* Темный фон для опций */
+  color: white;
+}
+
+.input-group input:focus, 
+.input-group select:focus { 
   background: rgba(0,0,0,0.5);
   border-color: var(--vanilla); 
   box-shadow: 0 0 10px rgba(253, 245, 230, 0.2); 
@@ -139,14 +173,34 @@ body {
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  align-self: flex-end;
-  height: 52px; /* Выравниваем по высоте с инпутами */
+  height: 52px; 
+  white-space: nowrap;
 }
-.btn-primary:hover { background: #7a102b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(80, 10, 28, 0.6); }
+
+.btn-primary:hover { 
+  background: #7a102b; 
+  transform: translateY(-2px); 
+  box-shadow: 0 5px 15px rgba(80, 10, 28, 0.6); 
+}
+
+/* Адаптив для маленьких экранов */
+@media (max-width: 900px) {
+  .search-form { 
+    flex-wrap: wrap; 
+    padding: 20px; 
+    bottom: 20px;
+  }
+  .input-group {
+    min-width: 45%;
+  }
+  .btn-primary {
+    width: 100%;
+  }
+}
 
 /* --- СЕКЦИЯ ПРЕДЛОЖЕНИЙ --- */
 .offers-section { padding: 80px 50px; text-align: center; background: var(--dark-bg);}
-.offers-section h2 { font-family: 'Playfair Display', serif; margin-bottom: 50px; font-size: 40px; }
+.offers-section h2 { font-family: 'Playfair Display',  serif; margin-bottom: 50px; font-size: 40px; }
 .offers-grid { display: flex; gap: 40px; justify-content: center; }
 
 .offer-card {
@@ -161,7 +215,7 @@ body {
 .offer-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 .offer-image { height: 220px; background-size: cover; background-position: center; transition: transform 0.5s ease; }
 .offer-card:hover .offer-image { transform: scale(1.05); }
-.offer-card h3 { margin: 25px 0 15px; font-family: 'Playfair Display', serif; font-size: 24px;}
+.offer-card h3 { margin: 25px 0 15px; font-family: 'Playfair Display',  serif; font-size: 24px;}
 .offer-card p { padding: 0 25px; color: #b0b0b0; margin-bottom: 25px; font-size: 15px; line-height: 1.5;}
 
 .btn-secondary {
@@ -180,7 +234,7 @@ body {
 /* --- СТРАНИЦА РЕГИСТРАЦИИ --- */
 .auth-page { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px; padding-top: 120px;}
 .auth-container { background: rgba(5, 5, 79, 0.8); backdrop-filter: blur(10px); padding: 50px; border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-.auth-container h2 { color: var(--vanilla); text-align: center; margin-bottom: 30px; font-family: 'Playfair Display', serif; font-size: 32px;}
+.auth-container h2 { color: var(--vanilla); text-align: center; margin-bottom: 30px; font-family: 'Playfair Display',  serif; font-size: 32px;}
 .auth-form { display: flex; flex-direction: column; gap: 15px; }
 .auth-form input { padding: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; border-radius: 8px; outline: none; font-family: 'Roboto', sans-serif; transition: 0.3s; }
 .auth-form input:focus { border-color: var(--vanilla); background: rgba(0,0,0,0.5); }
@@ -191,10 +245,10 @@ body {
 /* --- СТРАНИЦА БРОНИРОВАНИЯ --- */
 .booking-page { padding: 150px 20px 80px 20px; min-height: 100vh;}
 .container { max-width: 800px; margin: 0 auto; }
-.page-title { text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 40px; font-size: 40px; }
+.page-title { text-align: center; font-family: 'Playfair Display',  serif; margin-bottom: 40px; font-size: 40px; }
 .booking-form { background: rgba(5, 5, 79, 0.8); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
 .form-section { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
-.form-section h3 { margin-bottom: 20px; color: var(--vanilla); font-family: 'Playfair Display', serif; font-size: 22px;}
+.form-section h3 { margin-bottom: 20px; color: var(--vanilla); font-family: 'Playfair Display',  serif; font-size: 22px;}
 .input-row { display: flex; gap: 20px; margin-bottom: 15px; }
 .input-row input { flex: 1; }
 .booking-form input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; border-radius: 8px; outline: none; font-family: 'Roboto', sans-serif; transition: 0.3s;}
@@ -204,7 +258,7 @@ body {
 .class-card input { display: none; }
 .class-info { background: rgba(255,255,255,0.05); padding: 20px; border: 1px solid transparent; border-radius: 10px; text-align: center; transition: 0.3s; }
 .class-card input:checked + .class-info { border-color: var(--burgundy); background: rgba(80,10,28,0.4); }
-.class-info h4 { color: var(--vanilla); margin-bottom: 5px; font-family: 'Playfair Display', serif;}
+.class-info h4 { color: var(--vanilla); margin-bottom: 5px; font-family: 'Playfair Display',  serif;}
 .class-info p { color: #ccc; }
 
 /* --- ПОДВАЛ --- */
@@ -212,7 +266,7 @@ body {
 .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
 .footer-links a { color: var(--vanilla); text-decoration: none; opacity: 0.7; transition: 0.3s; font-size: 14px;}
 .footer-links a:hover { opacity: 1; color: #ffb3c1; }
-.footer-logo span { font-family: 'Playfair Display', serif; font-size: 24px; letter-spacing: 3px; font-weight: 800;}
+.footer-logo span { font-family: 'Playfair Display',  serif; font-size: 24px; letter-spacing: 3px; font-weight: 800;}
 
 /* Адаптивность для маленьких экранов */
 @media (max-width: 900px) {
@@ -229,7 +283,7 @@ body {
   text-align: center;
 }
 .search-results h2 {
-  font-family: 'Aboreto', sans-serif;
+  font-family: 'Playfair Display',  serif;
   font-size: 32px;
   margin-bottom: 40px;
 }
@@ -261,7 +315,7 @@ body {
   border-left: 4px solid var(--burgundy);
 }
 .flight-info { text-align: left; }
-.flight-info h3 { font-family: 'Aboreto', sans-serif; margin-bottom: 5px; }
+.flight-info h3 { font-family: 'Playfair Display',  serif; margin-bottom: 5px; }
 .flight-info p { color: #ccc; font-size: 14px; }
 .flight-price { display: flex; align-items: center; gap: 20px; }
 .flight-price span { font-size: 24px; font-weight: bold; color: var(--vanilla); }
