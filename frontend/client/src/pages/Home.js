@@ -85,20 +85,20 @@ const Home = () => {
           {flights.length === 0 && !loading && (
             <p className="no-results">По вашему запросу ничего не найдено.</p>
           )}
-          <div className="results-grid">
-            {flights.map((flight, index) => (
-              <motion.div key={index} className="flight-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: index * 0.1 }}>
-                <div className="flight-info">
-                  <h3>Рейс {flight.number}</h3>
-                  <p>Вылет: {flight.time}</p>
-                </div>
-                <div className="flight-price">
-                  <span>{flight.price}</span>
-                  <button className="btn-secondary" onClick={() => navigate('/booking')}>Выбрать</button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+            <div className="results-grid">
+              {flights.map((flight, index) => (
+                <motion.div key={index} className="flight-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: index * 0.1 }}>
+                  <div className="flight-info">
+                    <h3>{flight.airline} - {flight.number}</h3>
+                    <p>Вылет: {flight.time}</p>
+                  </div>
+                  <div className="flight-price">
+                    <span>{flight.price}</span>
+                    <button className="btn-secondary" onClick={() => navigate('/booking', { state: { flight } })}>Выбрать</button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
         </section>
       )}
 

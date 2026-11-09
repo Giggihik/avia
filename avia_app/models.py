@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Airline(models.Model):
     name = models.CharField("Название авиакомпании", max_length=100)
@@ -84,6 +85,7 @@ class Booking(models.Model):
     booking_date = models.DateTimeField("Дата бронирования", auto_now_add=True)
     is_paid = models.BooleanField("Оплачено", default=False) 
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, verbose_name="Пассажир")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Пользователь сайта")
 
     class Meta:
         verbose_name = "Бронирование"

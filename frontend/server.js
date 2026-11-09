@@ -10,6 +10,36 @@ app.use(cors());
 // Указываем Express, где лежат файлы сборки React
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+app.use(express.json()); 
+
+app.post('/api/register', async (req, res) => {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/register/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req.body)
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/login/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req.body)
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
+});
+
 // API для поиска (общается с Django)
 app.get('/api/search', async (req, res) => {
     const { from, to } = req.query;
@@ -43,4 +73,29 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Node.js сервер запущен на http://localhost:${PORT}`);
+});
+
+app.get('/api/user-tickets', async (req, res) => {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/user-tickets/?email=${req.query.email}`);
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
+});
+
+// Отмена билета
+app.post('/api/cancel-ticket', async (req, res) => {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/cancel-ticket/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req.body)
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
 });
